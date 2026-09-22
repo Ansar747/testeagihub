@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduStart — AI-тренажёр</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="card">
+    <p class="eyebrow">Тренировочный MVP</p>
+    <h1>EduStart</h1>
+    <p class="intro">Небольшой тренажёр: получите вопрос, ответьте и сразу увидите объяснение.</p>
+
+    <section id="start-screen">
+      <label for="topic">Выберите тему</label>
+      <select id="topic">
+        <option value="math">Математика</option>
+        <option value="history">История</option>
+        <option value="english">Английский язык</option>
+      </select>
+      <button id="start-button">Начать тренировку</button>
+    </section>
+
+    <section id="quiz-screen" hidden>
+      <p id="topic-name" class="eyebrow"></p>
+      <h2 id="question"></h2>
+      <label for="answer">Ваш ответ</label>
+      <input id="answer" type="text" autocomplete="off" placeholder="Напишите ответ" />
+      <button id="check-button">Проверить ответ</button>
+      <p id="result" class="result" aria-live="polite"></p>
+      <button id="again-button" class="secondary">Выбрать другую тему</button>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
