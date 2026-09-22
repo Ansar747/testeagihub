@@ -7,6 +7,7 @@
   <meta name="description" content="EduHub — студенческое сообщество для общения, проектов и развития.">
   <title>EduHub — студенческое сообщество</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2314161a'/%3E%3Cpath d='M18 21h28v8H26v5h17v8H26v5h20' fill='none' stroke='%234f7cff' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="feed.css">
   <style>
     :root{--bg:#f5f6fa;--surface:#fff;--ink:#14161a;--muted:#767b85;--line:#e7e8ed;--brand:#315efb;--brand2:#7c4dff;--soft:#edf1ff;--shadow:0 18px 55px rgba(18,24,40,.08)}
     *{box-sizing:border-box}
@@ -105,12 +106,7 @@
         <button id="viewTeam">Посмотреть команду</button>
       </article>
 
-      <article class="card">
-        <header class="post-head"><div class="avatar md">АМ</div><div class="post-meta"><strong>Айдана Мусина</strong><span>Astana IT University · 18 минут назад</span></div><button class="more" aria-label="Ещё">•••</button></header>
-        <img class="post-image" src="assets/student-collaboration.png" alt="Студенты вместе работают над проектом в кампусе">
-        <div class="actions"><button class="action like" aria-label="Нравится"><svg class="icon"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.7-7.5 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><button class="action" aria-label="Комментарий"><svg class="icon"><path d="M21 12a8.5 8.5 0 0 1-9 8 9.8 9.8 0 0 1-3.8-.8L3 21l1.7-4.5A8 8 0 1 1 21 12Z"/></svg></button><button class="action" aria-label="Поделиться"><svg class="icon"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button><button class="action save" aria-label="Сохранить"><svg class="icon"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg></button></div>
-        <div class="post-body"><div class="likes"><span id="likeCount">128</span> отметок «Нравится»</div><div class="caption"><strong>aidana.m</strong> Наша команда готовит прототип платформы для совместного обучения. Ищем backend-разработчика — присоединяйтесь!</div><div class="tags">#HackAlem #EdTech #ИщемКоманду</div><div class="comments">Посмотреть 14 комментариев</div></div>
-      </article>
+      <section id="feed" aria-label="Лента публикаций"></section>
     </main>
 
     <aside class="rightbar">
@@ -127,23 +123,21 @@
     <button data-page="Чаты"><svg class="icon"><path d="M21 12a8.5 8.5 0 0 1-9 8 9.8 9.8 0 0 1-3.8-.8L3 21l1.7-4.5A8 8 0 1 1 21 12Z"/></svg><span>Чаты</span></button>
     <button data-page="Профиль"><div class="avatar">АИ</div><span>Профиль</span></button>
   </nav>
+
+  <dialog class="modal" id="postDialog" aria-labelledby="postDialogTitle">
+    <form class="modal-card" id="postForm">
+      <div class="modal-head"><div><span class="modal-eyebrow">Новая публикация</span><h2 id="postDialogTitle">Поделитесь с кампусом</h2></div><button class="modal-close" type="button" data-close="postDialog" aria-label="Закрыть">×</button></div>
+      <label class="field">Текст публикации<textarea id="postText" name="text" rows="5" maxlength="700" required placeholder="Расскажите о проекте, событии или идее…"></textarea></label>
+      <div class="form-grid"><label class="field">Категория<select id="postCategory" name="category"><option>Проекты</option><option>Новости</option><option>Лекции</option><option>Жизнь кампуса</option></select></label><label class="field">Ссылка на фото <span>необязательно</span><input id="postImage" name="image" type="url" placeholder="https://…"></label></div>
+      <div class="form-actions"><button class="secondary-button" type="button" data-close="postDialog">Отмена</button><button class="submit-button" type="submit">Опубликовать</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="modal" id="commentsDialog" aria-labelledby="commentsDialogTitle">
+    <section class="modal-card comments-modal"><div class="modal-head"><div><span class="modal-eyebrow">Обсуждение</span><h2 id="commentsDialogTitle">Комментарии</h2></div><button class="modal-close" type="button" data-close="commentsDialog" aria-label="Закрыть">×</button></div><div id="commentsList" class="comments-list"></div><form id="commentForm" class="comment-form"><input id="commentText" maxlength="240" required placeholder="Напишите комментарий…" aria-label="Текст комментария"><button type="submit" aria-label="Отправить">Отправить</button></form></section>
+  </dialog>
+
   <div class="toast" role="status" aria-live="polite"></div>
-  <script>
-    const toast = document.querySelector('.toast');
-    let toastTimer;
-    function showToast(text){toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2200)}
-    document.querySelectorAll('[data-page]').forEach(btn=>btn.addEventListener('click',()=>{
-      const group=btn.closest('nav');group.querySelectorAll('[data-page]').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
-      showToast(btn.dataset.page==='Главная'?'Вы уже на главной':`${btn.dataset.page} — следующий экран продукта`);
-    }));
-    const like=document.querySelector('.like'), count=document.querySelector('#likeCount');
-    like.addEventListener('click',()=>{const on=like.classList.toggle('liked');count.textContent=128+(on?1:0);showToast(on?'Публикация понравилась':'Отметка удалена')});
-    document.querySelector('.action.save').addEventListener('click',e=>{e.currentTarget.classList.toggle('liked');showToast('Публикация сохранена')});
-    document.querySelectorAll('.suggestion button').forEach(btn=>btn.addEventListener('click',()=>{btn.classList.toggle('followed');btn.textContent=btn.classList.contains('followed')?'Вы подписаны':'Подписаться'}));
-    document.querySelectorAll('.story').forEach(btn=>btn.addEventListener('click',()=>showToast('Истории появятся в следующей версии')));
-    document.querySelector('#viewTeam').addEventListener('click',()=>showToast('Открываем AI-подбор команды'));
-    document.querySelector('#composer').addEventListener('click',()=>showToast('Создание публикации — следующий экран'));
-    document.querySelector('#createPost').addEventListener('click',()=>showToast('Создание публикации — следующий экран'));
-  </script>
+  <script src="feed.js" defer></script>
 </body>
 </html>
