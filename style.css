@@ -1,0 +1,21 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #10233c;
+  background: #eef5ff;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; }
+.card { width: min(100%, 620px); background: white; border-radius: 20px; padding: 36px; box-shadow: 0 16px 45px #b8cbe380; }
+h1 { margin: 0 0 8px; font-size: 42px; }
+h2 { line-height: 1.35; }
+.intro { color: #52667e; line-height: 1.55; }
+.eyebrow { color: #1967d2; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; font-size: 12px; }
+label { display: block; margin: 22px 0 8px; font-weight: 700; }
+select, input, button { width: 100%; border-radius: 10px; font: inherit; padding: 13px; }
+select, input { border: 1px solid #bac9d9; }
+button { margin-top: 18px; border: 0; background: #1967d2; color: white; font-weight: 700; cursor: pointer; }
+button:hover { background: #1253ad; }
+.secondary { background: #e6eef8; color: #10233c; }
+.result { min-height: 28px; margin-top: 20px; font-weight: 700; line-height: 1.5; }
+.correct { color: #08783b; }
+.wrong { color: #bd2c2c; }
