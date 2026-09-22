@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f6fa"><title>Проекты — EduHub</title><link rel="stylesheet" href="assets/pages.css"></head>
+<body><div class="shell">
+  <aside class="sidebar"><div class="brand"><b class="brandmark">E</b><span>edu<i>/hub</i></span></div><nav class="nav">
+    <a class="nav-btn" href="index.html"><svg class="icon"><path d="M3 11.5 12 4l9 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"/><path d="M9 21v-7h6v7"/></svg>Главная</a>
+    <a class="nav-btn" href="search.html"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Поиск</a>
+    <a class="nav-btn active" href="projects.html"><svg class="icon"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M8 5V3h8v2M3 11h18"/></svg>Проекты</a>
+  </nav></aside>
+  <main class="content"><header class="page-head"><div><h1>Проекты</h1><p>Присоединяйтесь к идеям или собирайте свою команду</p></div><button class="primary" id="createProject">+ Создать проект</button></header>
+    <div class="filters"><button class="chip active" data-filter="all">Все</button><button class="chip" data-filter="edtech">EdTech</button><button class="chip" data-filter="ai">AI</button><button class="chip" data-filter="social">Social</button></div>
+    <section class="projects">
+      <article class="project" data-category="edtech ai"><div class="project-top"><span class="badge">EdTech · AI</span><span class="members">2 из 4</span></div><h2>Персональный AI-тьютор</h2><p>Помощник, который выявляет пробелы в знаниях и формирует индивидуальный учебный маршрут.</p><div class="skills"><span>Python</span><span>OpenAI API</span><span>UX/UI</span></div><button>Присоединиться</button></article>
+      <article class="project" data-category="social ai"><div class="project-top"><span class="badge">Social · AI</span><span class="members">3 из 5</span></div><h2>EduHub Community</h2><p>Социальная сеть для поиска единомышленников, проектных команд и возможностей в кампусе.</p><div class="skills"><span>Frontend</span><span>Backend</span><span>AI Matching</span></div><button>Присоединиться</button></article>
+      <article class="project" data-category="edtech"><div class="project-top"><span class="badge">EdTech</span><span class="members">1 из 3</span></div><h2>Доступная лекция</h2><p>Сервис создаёт субтитры, конспект и упрощённую версию учебного материала.</p><div class="skills"><span>Speech-to-text</span><span>Design</span></div><button>Присоединиться</button></article>
+      <article class="project" data-category="ai social"><div class="project-top"><span class="badge">AI · Campus</span><span class="members">2 из 3</span></div><h2>Campus Navigator</h2><p>AI-агент отвечает на вопросы студентов по документам, событиям и возможностям вуза.</p><div class="skills"><span>RAG</span><span>JavaScript</span></div><button>Присоединиться</button></article>
+    </section>
+  </main>
+</div>
+<nav class="bottom-nav"><a href="index.html"><svg class="icon"><path d="M3 11.5 12 4l9 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"/><path d="M9 21v-7h6v7"/></svg><span>Главная</span></a><a href="search.html"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Поиск</span></a><a class="active" href="projects.html"><svg class="icon"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M8 5V3h8v2M3 11h18"/></svg><span>Проекты</span></a></nav>
+<div class="toast"></div><script>
+const toast=document.querySelector('.toast');function showToast(t){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1900)}
+document.querySelectorAll('.chip').forEach(chip=>chip.addEventListener('click',()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));chip.classList.add('active');const f=chip.dataset.filter;document.querySelectorAll('.project').forEach(p=>p.hidden=f!=='all'&&!p.dataset.category.includes(f))}));
+document.querySelectorAll('.project button').forEach(btn=>btn.addEventListener('click',()=>{btn.textContent='Заявка отправлена';showToast('Автор проекта получил вашу заявку')}));document.querySelector('#createProject').addEventListener('click',()=>showToast('Форма создания проекта появится следующим этапом'));
+</script></body></html>

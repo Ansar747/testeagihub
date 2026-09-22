@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f5f6fa"><title>Поиск — EduHub</title><link rel="stylesheet" href="assets/pages.css"></head>
+<body><div class="shell">
+  <aside class="sidebar"><div class="brand"><b class="brandmark">E</b><span>edu<i>/hub</i></span></div><nav class="nav">
+    <a class="nav-btn" href="index.html"><svg class="icon"><path d="M3 11.5 12 4l9 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"/><path d="M9 21v-7h6v7"/></svg>Главная</a>
+    <a class="nav-btn active" href="search.html"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Поиск</a>
+    <a class="nav-btn" href="projects.html"><svg class="icon"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M8 5V3h8v2M3 11h18"/></svg>Проекты</a>
+  </nav></aside>
+  <main class="content"><header class="page-head"><div><h1>Поиск</h1><p>Находите людей, сообщества и возможности</p></div></header>
+    <label class="search-box"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><input id="searchInput" type="search" placeholder="Имя, навык или направление…" autocomplete="off"></label>
+    <div class="filters"><button class="chip active">Все</button><button class="chip">Студенты</button><button class="chip">Навыки</button><button class="chip">Сообщества</button></div>
+    <h2 class="section-title">Рекомендуем познакомиться</h2><section class="people" id="people">
+      <article class="person" data-search="данияр python machine learning ml"><div class="avatar">ДК</div><div><strong>Данияр К.</strong><span>Python · ML</span></div><button>Подписаться</button></article>
+      <article class="person" data-search="мадина ux ui edtech дизайн"><div class="avatar">МЕ</div><div><strong>Мадина Е.</strong><span>UX/UI · EdTech</span></div><button>Подписаться</button></article>
+      <article class="person" data-search="али product pitch презентация"><div class="avatar">АР</div><div><strong>Али Р.</strong><span>Product · Pitch</span></div><button>Подписаться</button></article>
+      <article class="person" data-search="айдана frontend javascript web"><div class="avatar">АМ</div><div><strong>Айдана М.</strong><span>Frontend · Web</span></div><button>Подписаться</button></article>
+    </section><p class="empty-note" id="empty" hidden>По вашему запросу пока ничего не найдено.</p>
+  </main>
+</div>
+<nav class="bottom-nav"><a href="index.html"><svg class="icon"><path d="M3 11.5 12 4l9 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"/><path d="M9 21v-7h6v7"/></svg><span>Главная</span></a><a class="active" href="search.html"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Поиск</span></a><a href="projects.html"><svg class="icon"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M8 5V3h8v2M3 11h18"/></svg><span>Проекты</span></a></nav>
+<div class="toast"></div><script>
+const input=document.querySelector('#searchInput'),cards=[...document.querySelectorAll('.person')],empty=document.querySelector('#empty');
+input.addEventListener('input',()=>{const q=input.value.trim().toLowerCase();let shown=0;cards.forEach(card=>{const ok=card.dataset.search.includes(q);card.hidden=!ok;if(ok)shown++});empty.hidden=shown>0});
+document.querySelectorAll('.person button').forEach(btn=>btn.addEventListener('click',()=>{const on=btn.textContent==='Вы подписаны';btn.textContent=on?'Подписаться':'Вы подписаны'}));
+</script></body></html>
