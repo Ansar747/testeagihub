@@ -1,37 +1,149 @@
 <!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EduStart — AI-тренажёр</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7fb">
+  <meta name="description" content="EduHub — студенческое сообщество для общения, проектов и развития.">
+  <title>EduHub — студенческое сообщество</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%2314161a'/%3E%3Cpath d='M18 21h28v8H26v5h17v8H26v5h20' fill='none' stroke='%234f7cff' stroke-width='7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <style>
+    :root{--bg:#f5f6fa;--surface:#fff;--ink:#14161a;--muted:#767b85;--line:#e7e8ed;--brand:#315efb;--brand2:#7c4dff;--soft:#edf1ff;--shadow:0 18px 55px rgba(18,24,40,.08)}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+    button,input{font:inherit}
+    button{color:inherit}
+    .icon{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+    .layout{max-width:1180px;margin:auto;display:grid;grid-template-columns:248px minmax(0,610px) 286px;gap:28px;align-items:start;padding:26px 24px 110px}
+    .sidebar,.rightbar{position:sticky;top:24px}
+    .brand{display:flex;align-items:center;gap:11px;font-size:1.35rem;font-weight:800;letter-spacing:-.05em;margin:5px 0 35px}
+    .brandmark{display:grid;place-items:center;width:37px;height:37px;border-radius:12px;background:var(--ink);color:white;font-weight:900;box-shadow:0 8px 22px rgba(20,22,26,.18)}
+    .brand i{font-style:normal;color:var(--brand)}
+    .nav{display:grid;gap:8px}
+    .nav-btn{border:0;background:transparent;display:flex;align-items:center;gap:14px;padding:13px 14px;border-radius:15px;font-weight:650;color:#606570;cursor:pointer;text-align:left;transition:.2s}
+    .nav-btn:hover,.nav-btn.active{background:var(--surface);color:var(--ink);box-shadow:0 8px 26px rgba(25,30,45,.06)}
+    .nav-btn.active .icon{color:var(--brand);stroke-width:2.5}
+    .nav-btn .dot{margin-left:auto;width:7px;height:7px;border-radius:50%;background:#ff4d67}
+    .create{margin-top:22px;width:100%;border:0;border-radius:16px;background:var(--ink);color:#fff;padding:14px;font-weight:750;cursor:pointer;box-shadow:0 12px 30px rgba(20,22,26,.18)}
+    .profile-mini{margin-top:30px;padding:12px;border-radius:18px;background:#fff;display:flex;align-items:center;gap:11px;border:1px solid var(--line)}
+    .avatar{flex:0 0 auto;display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#315efb,#8b5cf6);color:white;font-weight:800}
+    .avatar.sm{width:38px;height:38px;font-size:.8rem}.avatar.md{width:44px;height:44px}.avatar.lg{width:59px;height:59px;font-size:1.05rem}
+    .profile-mini strong,.suggestion strong{display:block;font-size:.88rem}.profile-mini span,.suggestion span{font-size:.75rem;color:var(--muted)}
+    .main{min-width:0}
+    .mobile-head{display:none}
+    .welcome{display:flex;align-items:end;justify-content:space-between;margin:1px 2px 22px}
+    .welcome h1{margin:0;font-size:1.65rem;letter-spacing:-.045em}.welcome p{margin:5px 0 0;color:var(--muted);font-size:.9rem}
+    .search{border:1px solid var(--line);background:rgba(255,255,255,.8);height:42px;padding:0 14px;border-radius:14px;display:flex;align-items:center;gap:8px;color:var(--muted);font-size:.86rem}
+    .search .icon{width:18px}
+    .stories{display:flex;gap:15px;overflow:auto;padding:2px 2px 17px;scrollbar-width:none}.stories::-webkit-scrollbar{display:none}
+    .story{border:0;background:none;padding:0;min-width:68px;cursor:pointer}
+    .story-ring{width:64px;height:64px;border-radius:50%;padding:3px;background:linear-gradient(140deg,#315efb 5%,#8556ff 50%,#ff5a7d)}
+    .story-ring .avatar{width:100%;height:100%;border:3px solid white;background:#dbe2ff;color:#253052}
+    .story:nth-child(3) .avatar{background:#ffe0e6;color:#772a40}.story:nth-child(4) .avatar{background:#ddf8eb;color:#16513a}.story:nth-child(5) .avatar{background:#fff0ca;color:#654616}.story:nth-child(6) .avatar{background:#e9e1ff;color:#46287c}
+    .story span{display:block;margin-top:7px;font-size:.73rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .add-ring{background:#fff;border:1px dashed #bfc4d0;padding:4px;position:relative}.add-ring:after{content:"+";position:absolute;right:-1px;bottom:-1px;background:var(--brand);border:2px solid white;color:white;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-weight:700}
+    .composer{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:13px 15px;margin-bottom:16px}
+    .composer button{flex:1;border:0;background:#f5f6f9;color:#8a8e98;border-radius:13px;text-align:left;padding:11px 14px;cursor:pointer}.composer .quick{flex:0;width:40px;height:40px;padding:0;display:grid;place-items:center;color:var(--brand)}
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;margin-bottom:17px;box-shadow:0 8px 32px rgba(21,27,45,.035)}
+    .post-head{display:flex;align-items:center;gap:11px;padding:15px 16px}.post-meta{min-width:0;flex:1}.post-meta strong{font-size:.9rem}.post-meta span{display:block;color:var(--muted);font-size:.75rem;margin-top:2px}.more{border:0;background:none;font-size:1.4rem;letter-spacing:2px;cursor:pointer;color:#6b707a}
+    .post-image{width:100%;aspect-ratio:4/4.35;object-fit:cover;display:block;background:#dde3f3}
+    .actions{display:flex;gap:15px;padding:13px 16px 5px}.action{border:0;background:none;padding:0;cursor:pointer;display:grid;place-items:center}.action.save{margin-left:auto}.action.liked{color:#ff315f}.action.liked .icon{fill:currentColor;stroke:currentColor}
+    .post-body{padding:5px 16px 17px;font-size:.88rem;line-height:1.5}.likes{font-weight:750;margin-bottom:7px}.caption strong{margin-right:5px}.tags{color:var(--brand);margin-top:5px}.comments{color:var(--muted);margin-top:8px;cursor:pointer}
+    .ai-card{padding:18px;background:linear-gradient(135deg,#15171c 0%,#23243a 55%,#322b66 100%);color:white;border:0;position:relative;isolation:isolate}
+    .ai-card:after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:#526cff;filter:blur(50px);opacity:.28;right:-60px;top:-80px;z-index:-1}
+    .ai-label{display:inline-flex;align-items:center;gap:7px;font-size:.72rem;font-weight:750;letter-spacing:.08em;text-transform:uppercase;color:#bdc8ff}.spark{width:22px;height:22px;display:grid;place-items:center;border-radius:8px;background:rgba(255,255,255,.12)}
+    .ai-card h2{font-size:1.14rem;line-height:1.3;letter-spacing:-.025em;margin:13px 0 8px;max-width:380px}.ai-card p{font-size:.82rem;line-height:1.5;color:#c8cad5;max-width:430px;margin:0 0 15px}.ai-card button{border:0;border-radius:12px;background:white;padding:10px 14px;font-weight:750;cursor:pointer}
+    .rightbar h3{font-size:.95rem;margin:5px 0 15px}.panel{background:#fff;border:1px solid var(--line);border-radius:21px;padding:17px;margin-bottom:16px}
+    .event{border-radius:16px;background:var(--soft);padding:14px;margin-top:10px}.event-date{font-size:.72rem;color:var(--brand);font-weight:800;text-transform:uppercase;letter-spacing:.06em}.event h4{font-size:.9rem;line-height:1.35;margin:7px 0 10px}.attending{display:flex;align-items:center;font-size:.72rem;color:var(--muted)}.attending .avatar{width:25px;height:25px;border:2px solid white;margin-right:-7px;font-size:.55rem}.attending span{margin-left:13px}
+    .suggestion{display:flex;align-items:center;gap:9px;margin-top:13px}.suggestion button{margin-left:auto;border:0;background:transparent;color:var(--brand);font-size:.75rem;font-weight:750;cursor:pointer}.suggestion button.followed{color:var(--muted)}
+    .footer-note{font-size:.7rem;color:#a0a4ad;line-height:1.7;padding:3px 5px}
+    .bottom-nav{display:none}
+    .toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,20px);padding:11px 15px;background:#17191e;color:#fff;border-radius:12px;font-size:.82rem;opacity:0;pointer-events:none;transition:.25s;z-index:20;box-shadow:var(--shadow)}.toast.show{opacity:1;transform:translate(-50%,0)}
+    @media(max-width:980px){.layout{grid-template-columns:82px minmax(0,610px);justify-content:center}.rightbar{display:none}.sidebar .brand span,.nav-btn span,.nav-btn .dot,.profile-mini div{display:none}.sidebar{display:flex;flex-direction:column;align-items:center}.brand{margin-bottom:35px}.nav-btn{padding:14px}.create{width:50px;height:50px;padding:0;font-size:0}.create:after{content:"+";font-size:1.6rem}.profile-mini{padding:5px;border:0;background:transparent}.profile-mini .avatar{width:42px;height:42px}}
+    @media(max-width:700px){body{background:#fff}.layout{display:block;padding:0 0 calc(88px + env(safe-area-inset-bottom));max-width:620px}.sidebar{display:none}.main{width:100%}.mobile-head{display:flex;align-items:center;justify-content:space-between;padding:16px 17px 12px;position:sticky;top:0;z-index:8;background:rgba(255,255,255,.9);backdrop-filter:blur(16px);border-bottom:1px solid rgba(231,232,237,.7)}.mobile-head .brand{margin:0;font-size:1.28rem}.mobile-actions{display:flex;gap:14px}.mobile-actions button{border:0;background:none;padding:0;position:relative}.mobile-actions button:first-child:after{content:"";position:absolute;width:7px;height:7px;border-radius:50%;background:#ff4565;right:-1px;top:0;border:1.5px solid white}.welcome{padding:18px 17px 12px;margin:0;align-items:center}.welcome h1{font-size:1.4rem}.welcome p{font-size:.82rem}.search{width:42px;padding:0;justify-content:center}.search span{display:none}.stories{padding:4px 16px 18px;gap:13px}.story{min-width:64px}.story-ring{width:60px;height:60px}.composer{border-left:0;border-right:0;border-radius:0;margin:0 0 9px;padding:11px 16px}.card{border-left:0;border-right:0;border-radius:0;margin-bottom:9px;box-shadow:none}.ai-card{margin:0 12px 12px;border-radius:20px}.post-image{aspect-ratio:1/1}.bottom-nav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:10;background:rgba(255,255,255,.93);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:9px 13px calc(9px + env(safe-area-inset-bottom));justify-content:space-around}.bottom-nav button{border:0;background:none;display:grid;place-items:center;gap:4px;color:#7b808a;padding:3px 10px;font-size:.62rem;cursor:pointer}.bottom-nav button.active{color:var(--ink);font-weight:750}.bottom-nav button.active .icon{color:var(--brand);stroke-width:2.4}.bottom-nav .avatar{width:24px;height:24px;font-size:.55rem}.toast{bottom:86px}}
+    @media(max-width:380px){.story:nth-child(6){display:none}.welcome h1{font-size:1.28rem}.bottom-nav button{padding:3px 7px}}
+  </style>
 </head>
 <body>
-  <main class="card">
-    <p class="eyebrow">Тренировочный MVP</p>
-    <h1>EduStart</h1>
-    <p class="intro">Небольшой тренажёр: получите вопрос, ответьте и сразу увидите объяснение.</p>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Основная навигация">
+      <div class="brand"><b class="brandmark">E</b><span>edu<i>/hub</i></span></div>
+      <nav class="nav">
+        <button class="nav-btn active" data-page="Главная"><svg class="icon"><path d="M3 11.5 12 4l9 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"/><path d="M9 21v-7h6v7"/></svg><span>Главная</span></button>
+        <button class="nav-btn" data-page="Поиск"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Поиск</span></button>
+        <button class="nav-btn" data-page="Проекты"><svg class="icon"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M8 5V3h8v2M3 11h18"/></svg><span>Проекты</span></button>
+        <button class="nav-btn" data-page="Сообщения"><svg class="icon"><path d="M21 12a8.5 8.5 0 0 1-9 8 9.8 9.8 0 0 1-3.8-.8L3 21l1.7-4.5A8 8 0 1 1 21 12Z"/></svg><span>Сообщения</span><b class="dot"></b></button>
+        <button class="nav-btn" data-page="Профиль"><svg class="icon"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>Профиль</span></button>
+      </nav>
+      <button class="create" id="createPost">Создать публикацию</button>
+      <div class="profile-mini"><div class="avatar sm">АИ</div><div><strong>Ансар Ильясов</strong><span>ЕАГИ · IT</span></div></div>
+    </aside>
 
-    <section id="start-screen">
-      <label for="topic">Выберите тему</label>
-      <select id="topic">
-        <option value="math">Математика</option>
-        <option value="history">История</option>
-        <option value="english">Английский язык</option>
-      </select>
-      <button id="start-button">Начать тренировку</button>
-    </section>
+    <main class="main">
+      <header class="mobile-head">
+        <div class="brand"><b class="brandmark">E</b><span>edu<i>/hub</i></span></div>
+        <div class="mobile-actions"><button aria-label="Уведомления"><svg class="icon"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"/></svg></button><button aria-label="Сообщения"><svg class="icon"><path d="M21 12a8.5 8.5 0 0 1-9 8 9.8 9.8 0 0 1-3.8-.8L3 21l1.7-4.5A8 8 0 1 1 21 12Z"/></svg></button></div>
+      </header>
+      <section class="welcome"><div><h1>Добрый день, Ансар</h1><p>Что нового в вашем кампусе</p></div><div class="search"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Найти людей и проекты</span></div></section>
 
-    <section id="quiz-screen" hidden>
-      <p id="topic-name" class="eyebrow"></p>
-      <h2 id="question"></h2>
-      <label for="answer">Ваш ответ</label>
-      <input id="answer" type="text" autocomplete="off" placeholder="Напишите ответ" />
-      <button id="check-button">Проверить ответ</button>
-      <p id="result" class="result" aria-live="polite"></p>
-      <button id="again-button" class="secondary">Выбрать другую тему</button>
-    </section>
-  </main>
-  <script src="app.js"></script>
+      <section class="stories" aria-label="Истории">
+        <button class="story"><div class="story-ring add-ring"><div class="avatar">АИ</div></div><span>Ваша история</span></button>
+        <button class="story"><div class="story-ring"><div class="avatar">АМ</div></div><span>Айдана</span></button>
+        <button class="story"><div class="story-ring"><div class="avatar">ДТ</div></div><span>Данияр</span></button>
+        <button class="story"><div class="story-ring"><div class="avatar">МК</div></div><span>Мадина</span></button>
+        <button class="story"><div class="story-ring"><div class="avatar">E+</div></div><span>Eco Club</span></button>
+        <button class="story"><div class="story-ring"><div class="avatar">AI</div></div><span>AI Lab</span></button>
+      </section>
+
+      <section class="composer"><div class="avatar sm">АИ</div><button id="composer">Поделитесь идеей или найдите команду…</button><button class="quick" aria-label="Добавить фото"><svg class="icon"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 20"/></svg></button></section>
+
+      <article class="card ai-card">
+        <div class="ai-label"><span class="spark">✦</span> AI-рекомендация</div>
+        <h2>Нашли 4 студентов для вашей команды на HackAlem</h2>
+        <p>Навыки совпадают с вашим проектом на 87%: UX-дизайн, Python, ML и презентация продукта.</p>
+        <button id="viewTeam">Посмотреть команду</button>
+      </article>
+
+      <article class="card">
+        <header class="post-head"><div class="avatar md">АМ</div><div class="post-meta"><strong>Айдана Мусина</strong><span>Astana IT University · 18 минут назад</span></div><button class="more" aria-label="Ещё">•••</button></header>
+        <img class="post-image" src="assets/student-collaboration.png" alt="Студенты вместе работают над проектом в кампусе">
+        <div class="actions"><button class="action like" aria-label="Нравится"><svg class="icon"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1.1L12 21l7.7-7.5 1.1-1.1a5.5 5.5 0 0 0 0-7.8Z"/></svg></button><button class="action" aria-label="Комментарий"><svg class="icon"><path d="M21 12a8.5 8.5 0 0 1-9 8 9.8 9.8 0 0 1-3.8-.8L3 21l1.7-4.5A8 8 0 1 1 21 12Z"/></svg></button><button class="action" aria-label="Поделиться"><svg class="icon"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></button><button class="action save" aria-label="Сохранить"><svg class="icon"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1Z"/></svg></button></div>
+        <div class="post-body"><div class="likes"><span id="likeCount">128</span> отметок «Нравится»</div><div class="caption"><strong>aidana.m</strong> Наша команда готовит прототип платформы для совместного обучения. Ищем backend-разработчика — присоединяйтесь!</div><div class="tags">#HackAlem #EdTech #ИщемКоманду</div><div class="comments">Посмотреть 14 комментариев</div></div>
+      </article>
+    </main>
+
+    <aside class="rightbar">
+      <section class="panel"><h3>Ближайшее событие</h3><div class="event"><div class="event-date">23 сентября · 12:30</div><h4>HackAlem AI — открытие и старт хакатона</h4><div class="attending"><div class="avatar">А</div><div class="avatar">Д</div><div class="avatar">М</div><span>+46 участников</span></div></div></section>
+      <section class="panel"><h3>Люди рядом по интересам</h3><div class="suggestion"><div class="avatar sm">ДК</div><div><strong>Данияр К.</strong><span>Python · ML</span></div><button>Подписаться</button></div><div class="suggestion"><div class="avatar sm">МЕ</div><div><strong>Мадина Е.</strong><span>UX/UI · EdTech</span></div><button>Подписаться</button></div><div class="suggestion"><div class="avatar sm">АР</div><div><strong>Али Р.</strong><span>Product · Pitch</span></div><button>Подписаться</button></div></section>
+      <div class="footer-note">О платформе · Помощь · Безопасность<br>Правила сообщества · Конфиденциальность<br><br>© 2026 EduHub EAGI</div>
+    </aside>
+  </div>
+
+  <nav class="bottom-nav" aria-label="Мобильная навигация">
+    <button class="active" data-page="Главная"><svg class="icon"><path d="M3 11.5 12 4l9 7.5v8a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"/><path d="M9 21v-7h6v7"/></svg><span>Главная</span></button>
+    <button data-page="Поиск"><svg class="icon"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg><span>Поиск</span></button>
+    <button data-page="Проекты"><svg class="icon"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M8 5V3h8v2M3 11h18"/></svg><span>Проекты</span></button>
+    <button data-page="Чаты"><svg class="icon"><path d="M21 12a8.5 8.5 0 0 1-9 8 9.8 9.8 0 0 1-3.8-.8L3 21l1.7-4.5A8 8 0 1 1 21 12Z"/></svg><span>Чаты</span></button>
+    <button data-page="Профиль"><div class="avatar">АИ</div><span>Профиль</span></button>
+  </nav>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <script>
+    const toast = document.querySelector('.toast');
+    let toastTimer;
+    function showToast(text){toast.textContent=text;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>toast.classList.remove('show'),2200)}
+    document.querySelectorAll('[data-page]').forEach(btn=>btn.addEventListener('click',()=>{
+      const group=btn.closest('nav');group.querySelectorAll('[data-page]').forEach(x=>x.classList.remove('active'));btn.classList.add('active');
+      showToast(btn.dataset.page==='Главная'?'Вы уже на главной':`${btn.dataset.page} — следующий экран продукта`);
+    }));
+    const like=document.querySelector('.like'), count=document.querySelector('#likeCount');
+    like.addEventListener('click',()=>{const on=like.classList.toggle('liked');count.textContent=128+(on?1:0);showToast(on?'Публикация понравилась':'Отметка удалена')});
+    document.querySelector('.action.save').addEventListener('click',e=>{e.currentTarget.classList.toggle('liked');showToast('Публикация сохранена')});
+    document.querySelectorAll('.suggestion button').forEach(btn=>btn.addEventListener('click',()=>{btn.classList.toggle('followed');btn.textContent=btn.classList.contains('followed')?'Вы подписаны':'Подписаться'}));
+    document.querySelectorAll('.story').forEach(btn=>btn.addEventListener('click',()=>showToast('Истории появятся в следующей версии')));
+    document.querySelector('#viewTeam').addEventListener('click',()=>showToast('Открываем AI-подбор команды'));
+    document.querySelector('#composer').addEventListener('click',()=>showToast('Создание публикации — следующий экран'));
+    document.querySelector('#createPost').addEventListener('click',()=>showToast('Создание публикации — следующий экран'));
+  </script>
 </body>
 </html>
